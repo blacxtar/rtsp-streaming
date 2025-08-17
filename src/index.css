@@ -2,10 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
+/* LiveSitter Design System - Modern Safety Monitoring */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -17,8 +14,18 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
+    /* Safety gradient colors */
     --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
+    
+    --safety-green: 151 80% 45%;
+    --safety-blue: 200 80% 55%;
+    --safety-teal: 176 76% 52%;
+    
+    /* Gradient definitions */
+    --gradient-safety: linear-gradient(135deg, hsl(var(--safety-green)), hsl(var(--safety-teal)), hsl(var(--safety-blue)));
+    --gradient-button: linear-gradient(90deg, hsl(var(--safety-green)), hsl(var(--safety-blue)));
+    --gradient-text: linear-gradient(90deg, hsl(var(--safety-green)), hsl(var(--safety-teal)), hsl(var(--safety-blue)));
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -36,7 +43,7 @@ All colors MUST be HSL.
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +107,32 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer components {
+  .gradient-text {
+    background: var(--gradient-text);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .gradient-button {
+    background: var(--gradient-button);
+    transition: all 0.3s ease;
+  }
+  
+  .gradient-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hero-number {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
   }
 }
