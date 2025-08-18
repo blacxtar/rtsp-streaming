@@ -3,13 +3,17 @@ export type StreamInfo = {
   hlsUrl: string;
 };
 
-export type Overlay = {
+export interface Overlay {
   id: string;
   streamId: string;
-  type: "text" | "image" | "box";
+  type: "text" | "image";
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  zIndex: number;
   text?: string;
+  style?: "alert" | "warning" | "safe" | "live";
   imageUrl?: string;
-  style: "alert" | "warning" | "safe" | "live" | "custom";
-  x: number; y: number; width: number; height: number; zIndex: number;
-};
+}
 

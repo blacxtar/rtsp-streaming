@@ -8,7 +8,6 @@ const Index = () => {
       <Header />
       <main>
         <HeroSection />
-        <VideoPlayer />
       </main>
     </div>
   );
