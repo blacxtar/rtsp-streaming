@@ -2,15 +2,7 @@ import { Overlay } from "@/types";
 
 export const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
-// export async function startStream(rtspUrl: string) {
-//   const res = await fetch(`${API_BASE}/streams/start`, {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({ rtspUrl }),
-//   });
-//   if (!res.ok) throw new Error("Failed to start stream");
-//   return (await res.json()).data; // { streamId, hlsUrl }
-// }
+
 
 export async function startStream(rtspUrl: string) {
   // Step 1: Request backend to start the stream
@@ -51,11 +43,25 @@ export async function startStream(rtspUrl: string) {
 }
 
 
+export async function getStreamList() {
+  const res = await fetch(`${API_BASE}/streams`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch stream list");
+  }
+  const responseData = await res.json();
+  
+  return responseData.data || []; 
+}
+
+
+
 
 // --- Overlay CRUD ---
 export async function getOverlays(streamId: string): Promise<Overlay[]> {
   const res = await fetch(`${API_BASE}/overlays?streamId=${streamId}`);
-  return (await res.json()).data || [];
+  const overlay = (await res.json()).data || []
+  console.log("overlay",overlay)
+  return  overlay
 }
 
 export async function createOverlay(overlay: Overlay) {
