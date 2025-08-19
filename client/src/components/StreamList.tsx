@@ -21,8 +21,8 @@ const StreamList = ({
   onStreamSelect,
 }: StreamListProps) => {
   return (
-    <div className="w-full max-w-md mx-auto bg-gray-900 text-white rounded-xl shadow-lg p-6">
-      <h2 className="text-xl font-bold text-gray-200 mb-4">Available Streams</h2>
+    <div className="w-full mx-auto bg-gray-100 text-black rounded-xl shadow-lg p-6">
+      <h2 className="text-xl font-bold mb-4">Available Streams</h2>
       
       {streams.length > 0 ? (
         <ul className="space-y-2">
@@ -47,11 +47,11 @@ const StreamList = ({
                     className={`h-2.5 w-2.5 rounded-full ${stream.running ? 'bg-green-500' : 'bg-gray-500'}`}
                     title={stream.running ? 'Running' : 'Stopped'}
                   />
-                  <span className="font-mono text-sm truncate">{stream.streamId}</span>
+                  <span className="font-mono text-sm text-white truncate">{stream.streamId}</span>
                 </div>
                 
                 {/* Right side: Chevron icon */}
-                <ChevronRight className="h-5 w-5 text-gray-400 flex-shrink-0" />
+                <ChevronRight className="h-5 w-5 text-gray-300 flex-shrink-0" />
               </button>
             </li>
           ))}

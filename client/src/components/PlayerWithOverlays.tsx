@@ -20,7 +20,7 @@ const PlayerWithOverlays: React.FC<PlayerWithOverlaysProps> = ({
   return (
     <div className="relative">
       {/* Video Player */}
-      <VideoPlayer streamUrl={streamUrl} />
+      <VideoPlayer streamUrl={streamUrl} streamId={streamId} />
 
       {/* Stream ID Overlay */}
       {streamId && (

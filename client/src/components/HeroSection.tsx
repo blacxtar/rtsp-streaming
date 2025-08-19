@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
+
+
 // Import all necessary API functions and the base URL
 import { 
   startStream, 
@@ -93,18 +95,22 @@ const HeroSection = () => {
     }
   };
 
-  const handleAddOverlay = async (overlay: Omit<Overlay, 'id'>) => {
-    if (!activeStreamId) return;
-    const id = activeStreamId
-    try {
-      await createOverlay({ ...overlay, id });
-      const updatedOverlays = await getOverlays(activeStreamId);
-      setOverlays(updatedOverlays);
-    } catch (err) {
-      console.error("Failed to add overlay:", err);
-      alert("Error: Could not add overlay.");
-    }
-  };
+ const handleAddOverlay = async (overlay: Overlay) => {
+  if (!activeStreamId) return;
+
+  try {
+    // Pass the complete overlay object, which already has a unique ID
+    await createOverlay(overlay);
+    
+    // This part is correct: re-fetch the list to ensure UI is in sync
+    const updatedOverlays = await getOverlays(activeStreamId);
+    setOverlays(updatedOverlays);
+  } catch (err) {
+    console.error("Failed to add overlay:", err);
+    alert("Error: Could not add overlay.");
+  }
+};
+
 
   const handleUpdateOverlay = async (updatedOverlay: Overlay) => {
     try {
@@ -116,16 +122,30 @@ const HeroSection = () => {
     }
   };
 
-  const handleDeleteOverlay = async (id: string) => {
+  // const handleDeleteOverlay = async (id: string) => {
+  //   try {
+  //     await deleteOverlay(id);
+  //     setOverlays(prev => prev.filter(o => o.id !== id));
+  //   } catch (err) {
+  //     console.error("Failed to delete overlay:", err);
+  //     alert("Error: Could not delete overlay.");
+  //   }
+  // };
+ const handleDeleteOverlay = async (id: string) => {
+    if (!activeStreamId) return; // Add a guard clause
     try {
+      // 1. Tell the backend to delete the overlay
       await deleteOverlay(id);
-      setOverlays(prev => prev.filter(o => o.id !== id));
+      
+      // 2. IMPORTANT: Refetch the list from the server to ensure perfect sync
+      const updatedOverlays = await getOverlays(activeStreamId);
+      setOverlays(updatedOverlays);
+
     } catch (err) {
       console.error("Failed to delete overlay:", err);
       alert("Error: Could not delete overlay.");
     }
   };
-
   return (
     <section className="w-full pt-8 pb-16 px-4 md:px-8">
       <div className="max-w-4xl mx-auto text-center">

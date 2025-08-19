@@ -1,5 +1,4 @@
 # Logs
-logs
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,15 +6,27 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Node / React Frontend (in /client)
+client/node_modules
+client/dist
+client/dist-ssr
+client/*.local
+client/.env
+client/.env.*
+
+# Python Backend (in /server)
+server/__pycache__/
+server/*.pyc
+.venv
+venv
+env
+
+# Generated HLS video files
+server/streams/
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+.vscode/
+.idea/
 .DS_Store
 *.suo
 *.ntvs*

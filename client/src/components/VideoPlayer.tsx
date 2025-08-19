@@ -3,12 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Play, Pause, Volume2, VolumeX, Maximize2, AlertCircle } from "lucide-react";
 import Hls from "hls.js";
+import { pauseStream, resumeStream } from "@/lib/api";
 
 type Props = {
   streamUrl: string | null;
+  streamId: string | null; 
 };
 
-const VideoPlayer = ({ streamUrl }: Props) => {
+const VideoPlayer = ({ streamUrl ,streamId}: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -18,7 +20,7 @@ const VideoPlayer = ({ streamUrl }: Props) => {
   const [duration, setDuration] = useState(0);
   const [streamError, setStreamError] = useState<string | null>(null);
 
-  // attach hls.js and handle stream loading
+ 
   useEffect(() => {
     if (!videoRef.current || !streamUrl) return;
 
@@ -110,20 +112,33 @@ const VideoPlayer = ({ streamUrl }: Props) => {
   // --- CONTROL HANDLERS ---
 
   const togglePlayPause = async () => {
-    const video = videoRef.current;
-    console.log("Toggle pause")
-    if (!video) return;
-    if (video.paused) {
-      try {
-        await video.play();
-      } catch (error) {
-        console.error("Playback was prevented.", error);
-        setStreamError("Playback failed. Please click to play.");
-      }
-    } else {
-      video.pause();
+  const video = videoRef.current;
+  if (!video || !streamId) return; // Also check for streamId
+
+  if (video.paused) {
+    // --- RESUME LOGIC ---
+    try {
+      // 1. Tell the backend to resume generating the stream
+      await resumeStream(streamId);
+      // 2. Tell the local video element to play
+      await video.play();
+    } catch (error) {
+      console.error("Playback/Resume failed.", error);
+      setStreamError("Playback failed. Please click to play.");
     }
-  };
+  } else {
+    // --- PAUSE LOGIC ---
+    try {
+      // 1. Tell the backend to pause the stream generation
+      await pauseStream(streamId);
+      // 2. Tell the local video element to pause
+      video.pause();
+    } catch (error) {
+        console.error("Pausing stream failed.", error);
+        setStreamError("Failed to pause the stream.");
+    }
+  }
+};
 
   const toggleMute = () => {
     if (videoRef.current) videoRef.current.muted = !videoRef.current.muted;

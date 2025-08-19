@@ -53,14 +53,53 @@ export async function getStreamList() {
   return responseData.data || []; 
 }
 
+export async function stopStream(streamId: string) {
+  const res = await fetch(`${API_BASE}/streams/stop/${streamId}`, {
+    method: "POST",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to stop stream");
+  }
+  const responseData = await res.json();
+  if (!responseData.ok) {
+    throw new Error(responseData.error || "Failed to stop stream");
+  }
+  return responseData.data;
+}
 
+export async function pauseStream(streamId: string) {
+  const res = await fetch(`${API_BASE}/streams/pause/${streamId}`, {
+    method: "POST",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to pause stream");
+  }
+  const responseData = await res.json();
+  if (!responseData.ok) {
+    throw new Error(responseData.error || "Failed to pause stream");
+  }
+  return responseData.data;
+}
+
+export async function resumeStream(streamId: string) {
+  const res = await fetch(`${API_BASE}/streams/resume/${streamId}`, {
+    method: "POST",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to resume stream");
+  }
+  const responseData = await res.json();
+  if (!responseData.ok) {
+    throw new Error(responseData.error || "Failed to resume stream");
+  }
+  return responseData.data;
+}
 
 
 // --- Overlay CRUD ---
 export async function getOverlays(streamId: string): Promise<Overlay[]> {
   const res = await fetch(`${API_BASE}/overlays?streamId=${streamId}`);
   const overlay = (await res.json()).data || []
-  console.log("overlay",overlay)
   return  overlay
 }
 
