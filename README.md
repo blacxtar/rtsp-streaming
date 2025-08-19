@@ -10,7 +10,7 @@ It provides a robust backend for video processing and a dynamic frontend for use
 - **RTSP → HLS Conversion**: Converts any RTSP stream into a browser-playable HLS format in real-time.  
 - **Live Player Controls**: Play, Pause, Resume, and Volume adjustment for smooth viewing.  
 - **Dynamic Overlays**: Add text, images, or alert cards on top of the live video.  
-- **Persistent State**: Stream info and overlays are stored in **MongoDB**, surviving restarts.  
+- **Persistent State**: overlays are stored in **MongoDB**.  
 - **Fully Dockerized**: Frontend (React), Backend (Flask), Nginx, and MongoDB run with one command.  
 
 ---
@@ -34,8 +34,8 @@ It provides a robust backend for video processing and a dynamic frontend for use
 
 ### 2. Clone Repository
 ```bash
-git clone <your-repository-url>
-cd <your-repository-name>
+git clone https://github.com/blacxtar/rtsp-streaming.git
+cd rtsp-streaming
 ```
 
 ### 3. Run with Docker Compose
@@ -110,14 +110,8 @@ docker-compose down
 ## 📌 Notes
 - Browsers can’t play RTSP directly. We convert RTSP → HLS using **FFmpeg** in the backend.  
 - VLC or `rtsp.stream` can provide you with test RTSP URLs.  
-- For production, configure Nginx with HTTPS + domain name.  
-
----
-
-## 📷 Demo (Optional GIF/Screenshot)
-_Add a screenshot or short GIF here showing the app running._
-
+ 
 ---
 
 ## 👤 Author
-- Developed by **[Your Name]** 🚀  
+- Developed by **[Salman Ahmad]** 🚀  
